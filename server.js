@@ -4,8 +4,6 @@ const bodyParser = require('body-parser');
 
 const connectDB = require('./config/database');
 const authRoute = require('./routes/authRoute');
-const studentRoute = require('./routes/studentRoute');
-const studentProfileRoute = require('./routes/studentProfileRoute');
 
 const app = express();
 // Connect database
@@ -19,8 +17,6 @@ app.use(bodyParser.json());
 
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoute);
-app.use(`${API_PREFIX}/students`, studentRoute);
-app.use(`${API_PREFIX}/profile`, studentProfileRoute);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));

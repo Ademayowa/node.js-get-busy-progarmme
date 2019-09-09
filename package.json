@@ -1,39 +1,22 @@
 {
-  "name": "School managenent app",
+  "name": "",
   "version": "1.0.0",
-  "description": "An application that monitors students",
+  "description": "",
   "main": "server.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
     "start": "node server.js",
-    "test": "mocha || true",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "nodemon server.js"
   },
   "author": "Mayowa",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
-    "chai": "^4.2.0",
-    "concurrently": "^4.1.0",
     "config": "^3.2.2",
-    "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
     "express": "^4.16.4",
-    "express-fileupload": "^1.1.4",
-    "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "mocha": "^6.2.0",
-    "mockgoose": "^8.0.2",
+    "mdbootstrap": "^4.8.9",
     "mongoose": "^5.4.22",
-    "multer": "^1.4.1",
-    "nodemailer": "^6.2.1",
-    "nodemailer-sendgrid-transport": "^0.2.0",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "supertest": "^4.0.2",
     "validator": "^10.11.0"
   },
   "devDependencies": {

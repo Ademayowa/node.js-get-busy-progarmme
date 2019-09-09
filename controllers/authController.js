@@ -4,38 +4,38 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-// Student model
-const Student = require('../models/Student');
+// User model
+const User = require('../models/User');
 // Sign-up validation
 const validateSignUpInput = require('../validation/sign-up');
 // Sign-in validation
 const validateSignInInput = require('../validation/sign-in');
 
 /**
- * @description  Register student
+ * @description  Signup user
  * @route  POST api/v1/auth/sign-up
- * @returns {Object} message, data and status code
+ * @returns {Object} status, message and token
  * @access public
  */
 exports.signUp = async (req, res) => {
   const { isValid, errors } = validateSignUpInput(req.body);
 
   try {
-    // Check student input validation
+    // Check user input validation
     if (!isValid) return res.status(400).json(errors);
 
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     // Check if email already exist
-    let student = await Student.findOne({ email });
-    if (student) {
+    let user = await User.findOne({ email });
+    if (user) {
       errors.email = 'Email already exist';
       return res.status(409).json(errors);
     }
 
-    // create new student
-    student = new Student({
-      username,
+    // create new user
+    user = new User({
+      name,
       email,
       password
     });
@@ -43,13 +43,13 @@ exports.signUp = async (req, res) => {
     // Hash password
     const salt = await bcrypt.genSalt(10);
 
-    student.password = await bcrypt.hash(password, salt);
-    // Save student
-    await student.save();
+    user.password = await bcrypt.hash(password, salt);
+    // Save user
+    await user.save();
 
     const payload = {
-      student: {
-        id: student.id
+      user: {
+        id: user.id
       }
     };
 
@@ -59,25 +59,23 @@ exports.signUp = async (req, res) => {
       { expiresIn: '1hr' },
       (err, token) => {
         if (err) throw err;
-        res
-          .json({
-            status: 'success',
-            msg: 'Sign up successfully',
-            token: token
-          })
-          .status(201);
+        res.status(201).json({
+          status: 'success',
+          msg: 'Sign up successfully',
+          token: token
+        });
       }
     );
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
     res.status(500).send('Something went wrong!');
   }
 };
 
 /**
- * @description  Login student
+ * @description  Signin user
  * @route  POST api/v1/auth/sign-in
- * @returns {Object} data, token & status code
+ * @returns {Object} status, message & token
  * @access public
  */
 exports.signIn = async (req, res) => {
@@ -88,23 +86,25 @@ exports.signIn = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find student by an existing email
-    let student = await Student.findOne({ email });
-    if (!student) {
+    // Find user by an existing email
+    let user = await User.findOne({ email });
+    if (!user) {
       errors.email = 'Invalid credentials!';
       return res.status(400).json(errors);
     }
 
     // Compare password
-    const match = await bcrypt.compare(password, student.password);
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
       errors.password = 'Email or password not correct';
       return res.status(400).json(errors);
     }
 
     const payload = {
-      student: {
-        id: student.id
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
       }
     };
 
@@ -114,17 +114,31 @@ exports.signIn = async (req, res) => {
       { expiresIn: '1hr' },
       (err, token) => {
         if (err) throw err;
-        res
-          .json({
-            status: 'success',
-            msg: 'Sign in successfully',
-            token: token
-          })
-          .status(200);
+        res.status(200).json({
+          status: 'success',
+          msg: 'Sign in successfully',
+          token: token
+        });
       }
     );
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
     res.status(500).send('Something went wrong!');
   }
+};
+
+/**
+ * @description  Get current user
+ * @route  GET api/v1/auth/current
+ * @returns {Object} status, message & authenticated user data
+ * @access private
+ */
+exports.getCurrentUser = (req, res) => {
+  res.json({
+    status: 'success',
+    msg: 'User authenticated',
+    id: req.user.id,
+    name: req.user.name,
+    email: req.user.email
+  });
 };
