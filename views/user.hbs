@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>User Data</title>
+  </head>
+  <body>
+    {{#if data}}
+      <div class="container mt-4 mb-4 p-4">
+        <div class="card card-body p-5 shadow-lg">
+          <p><strong>Id: </strong>{{ data.id }}</p>
+          <p><strong>Name: </strong>{{ data.name }}</p>
+          <p><strong>Username: </strong>{{ data.username }}</p>
+          <p><strong>Email: </strong>{{ data.email }}</p>
+
+          <p><strong>Address: </strong></p>
+          <ul>
+            <li>Street: {{ data.address.street }}</li>
+            <li>Suite: {{ data.address.suite }}</li>
+            <li>City: {{ data.address.city }}</li>
+            <li>Zipcode: {{ data.address.zipcode }}</li>
+
+            <p class="mt-4"><strong>Geo: </strong></p>
+            <ul>
+              <li>Lat: {{ data.address.geo.lat }}</li>
+              <li>Lng: {{ data.address.geo.lng }}</li>
+            </ul>
+          </ul>
+
+         
+
+          <p><strong>Phone: </strong>{{ data.phone }}</p>
+          <p><strong>Website: </strong>{{ data.website }}</p>
+
+          <p><strong>Company: </strong></p>
+          <ul>
+            <li>Name: {{ data.company.name }}</li>
+            <li>CatchPhase: {{ data.company.catchPhrase }}</li>
+            <li>Bs: {{ data.company.bs }}</li>
+          </ul>
+        </div>
+      </div>
+    {{/if}}
+  </body>
+</html>

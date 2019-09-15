@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Get Busy</title>
+  </head>
+  <body>
+    {{#if data}}
+    <div class="container">
+      <div class="card card-body shadow-lg">
+        <p><strong>ID: </strong>{{ data.id }}</p>
+        <p><strong>NAME: </strong>{{ data.name }}</p>
+        <p><strong>USERNAME: </strong>{{ data.username }}</p>
+        <p><strong>EMAIL: </strong>{{ data.email }}</p>
+
+        <h5>ADDRESS:</h5>
+        <ul>
+          <li>STREET: {{ data.address.street }}</li>
+          <li>SUITE: {{ data.address.suite }}</li>
+          <li>CITY: {{ data.address.city }}</li>
+          <li>ZIPCODE: {{ data.address.zipcode }}</li>
+        </ul>
+
+        <h5>GEO:</h5>
+        <ul>
+          <li>LAT: {{ data.geo.lat }}</li>
+          <li>LNG: {{ data.geo.lng }}</li>
+        </ul>
+
+        <p><strong>PHONE: </strong>{{ data.phone }}</p>
+        <p><strong>WEBSITE: </strong>{{ data.website }}</p>
+
+        <h5>COMPANY:</h5>
+        <ul>
+          <li>NAME: {{ data.company.name }}</li>
+          <li>CATCHPHRASE: {{ data.company.catchPhrase }}</li>
+          <li>BS: {{ data.company.bs }}</li>
+        </ul>
+      </div>
+    </div>
+    {{/if}}
+  </body>
+</html>
