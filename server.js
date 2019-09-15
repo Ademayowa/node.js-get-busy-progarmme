@@ -1,22 +1,30 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const path = require('path');
+const logger = require('morgan');
 const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars');
 
 const connectDB = require('./config/database');
-const authRoute = require('./routes/authRoute');
-
+const user = require('./routes/user');
 const app = express();
+
 // Connect database
 connectDB();
 
-const API_PREFIX = '/api/v1';
+// View engine
+app.engine('.hbs', expressHbs({ defaultLayout: 'main', extname: '.hbs' }));
+app.set('view engine', '.hbs');
 
-// Body parser middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+// Bodyparser
+app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use(`${API_PREFIX}/auth`, authRoute);
+app.use('/', user);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));
